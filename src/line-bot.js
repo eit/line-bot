@@ -12,13 +12,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/callback', (req, res) => {
-  console.log(req);
-  const result = req.body.result;
-  for(let i=0; i<result.length; i++){
-    const data = result[i]['content'];
-    console.log('receive: ', data);
-    sendTextMessage(data.from, data.text);
-  }
+  console.log(req.headers);
+  console.log(JSON.stringify(req.body));
+  res.status(200);
+  // const result = req.body.result;
+  // for(let i=0; i<result.length; i++){
+  //   const data = result[i]['content'];
+  //   console.log('receive: ', data);
+  //   sendTextMessage(data.from, data.text);
+  // }
 });
 
 app.listen(port, () => console.log(`listening on port ${port}`));
