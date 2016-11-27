@@ -21,7 +21,7 @@ app.post('/callback', (req, res) => {
   var updatedHmac = hmac.update(JSON.stringify(req.body));
   var digestValue = hmac.digest('base64')
 
-  if (digestValue === req.headers['x-line-signature'])
+  if (digestValue === req.headers['x-line-signature']){
     res.sendStatus(200);
     const result = req.body.events;
     for(let i=0; i<result.length; i++){
