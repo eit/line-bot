@@ -11,7 +11,6 @@ var CHANNEL_TOKEN = config.CHANNEL_TOKEN;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
 var crypto = require('crypto');
 var hmac = crypto.createHmac('sha256', CHANNEL_SECRECT);
-var digestValue = hmac.digest('base64');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,29 +18,43 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/callback', (req, res) => {
   console.log(req.headers);
   console.log(JSON.stringify(req.body));
-  console.log(digestValue);
-  res.send(200);
-  // const result = req.body.result;
-  // for(let i=0; i<result.length; i++){
-  //   const data = result[i]['content'];
-  //   console.log('receive: ', data);
-  //   sendTextMessage(data.from, data.text);
-  // }
+  var updatedHmac = hmac.update(JSON.stringify(req.body));
+  var digestValue = hmac.digest('base64')
+
+  if (digestValue === req.headers['x-line-signature'])
+    res.sendStatus(200);
+    const result = req.body.events;
+    for(let i=0; i<result.length; i++){
+      const data = result[i];
+      console.log('receive: ', data);
+      sendTextMessage(data.source.userId, data.message.text);
+    }
+  } else {
+    res.sendStatus(404);
+  }
 });
+
+// example event object
+// [
+//   {
+//     "type":"message",
+//     "replyToken":"***92c932a66458484c88f843296d***",
+//     "source":{"userId":"Ucc81918aa4bea2378f0c4e49110a9f80","type":"user"},
+//     "timestamp":1480215713362,
+//     "message":{"type":"text","id":"5264722319715","text":"Hi"}
+//   }
+// ]
 
 app.listen(port, () => console.log(`listening on port ${port}`));
 
 function sendTextMessage(sender, text) {
 
   const data = {
-    to: [sender],
-    toChannel: CHANNEL_ID,
-    eventType: '138311608800106203',
-    content: {
-      contentType: 1,
-      toType: 1,
+    to: sender,
+    messages: [{
+      type: 'text',
       text: text
-    }
+    }]
   };
 
   console.log('send: ', data);
