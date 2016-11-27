@@ -1,17 +1,18 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import request from 'request';
-import config from '../config';
+var express = require('express');
+var bodyParser = require('body-parser');
+var request = require('request');
+var config = require('../config');
 
 const app = express();
 const port = '7123';
-const { CHANNEL_ID, CHANNEL_SERECT, CHANNEL_TOKEN } = {...config};
+const { CHANNEL_ID, CHANNEL_SERECT, CHANNEL_TOKEN } = config;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/callback', (req, res) => {
+  console.log(req);
   const result = req.body.result;
   for(let i=0; i<result.length; i++){
     const data = result[i]['content'];
@@ -26,7 +27,7 @@ function sendTextMessage(sender, text) {
 
   const data = {
     to: [sender],
-    toChannel: 1383378250,
+    toChannel: CHANNEL_ID,
     eventType: '138311608800106203',
     content: {
       contentType: 1,
