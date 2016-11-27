@@ -10,7 +10,6 @@ var CHANNEL_SECRECT =  process.env.CHANNEL_SECRET;
 var CHANNEL_TOKEN = config.CHANNEL_TOKEN;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
 var crypto = require('crypto');
-var hmac = crypto.createHmac('sha256', CHANNEL_SECRECT);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/callback', (req, res) => {
   console.log(req.headers);
   console.log(JSON.stringify(req.body));
+  var hmac = crypto.createHmac('sha256', CHANNEL_SECRECT);
   var updatedHmac = hmac.update(JSON.stringify(req.body));
   var digestValue = hmac.digest('base64')
 
