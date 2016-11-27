@@ -65,7 +65,7 @@ function sendTextMessage(sender, text) {
       'Content-Type': 'application/json; charset=UTF-8',
       // 'X-Line-ChannelID': CHANNEL_ID,
       // 'X-Line-ChannelSecret': CHANNEL_SERECT,
-      'Authorization': CHANNEL_TOKEN,
+      'Authorization': `bearer ${CHANNEL_TOKEN}`,
       // 'X-Line-Trusted-User-With-ACL': MID
     },
     method: 'POST',
