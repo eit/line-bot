@@ -4,7 +4,7 @@ var request = require('request');
 var config = require('../config');
 
 const app = express();
-const port = '7123';
+const port = process.env.PORT || '7123';
 const { CHANNEL_ID, CHANNEL_SERECT, CHANNEL_TOKEN } = config;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
 
