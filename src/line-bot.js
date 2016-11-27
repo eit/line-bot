@@ -5,8 +5,10 @@ var config = require('../config');
 
 const app = express();
 const port = process.env.PORT || '7123';
-const { CHANNEL_ID, CHANNEL_SERECT, CHANNEL_TOKEN } = config;
+const { CHANNEL_ID, CHANNEL_SECRECT, CHANNEL_TOKEN } = config;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
+var hmac = require('crypto').createHmac('sha256', CHANNEL_SECRECT);
+var digestValue = hmac.digest('base64');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,7 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/callback', (req, res) => {
   console.log(req.headers);
   console.log(JSON.stringify(req.body));
-  res.status(200);
+  console.log(digestValue);
+  res.send(200);
   // const result = req.body.result;
   // for(let i=0; i<result.length; i++){
   //   const data = result[i]['content'];
