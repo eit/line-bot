@@ -5,9 +5,12 @@ var config = require('../config');
 
 const app = express();
 const port = process.env.PORT || '7123';
-const { CHANNEL_ID, CHANNEL_SECRECT, CHANNEL_TOKEN } = config;
+var CHANNEL_ID = config.CHANNEL_ID;
+var CHANNEL_SECRECT = config.CHANNEL_SECRECT;
+var CHANNEL_TOKEN = config.CHANNEL_TOKEN;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
-var hmac = require('crypto').createHmac('sha256', CHANNEL_SECRECT);
+var crypto = require('crypto');
+var hmac = crypto.createHmac('sha256', CHANNEL_SECRECT);
 var digestValue = hmac.digest('base64');
 
 app.use(bodyParser.json());
