@@ -5,8 +5,8 @@ import config from '../config';
 
 const app = express();
 const port = '7123';
-const { CHANNEL_ID, CHANNEL_SERECT, MID } = {...config};
-const LINE_API = 'https://trialbot-api.line.me/v1/events';
+const { CHANNEL_ID, CHANNEL_SERECT, CHANNEL_TOKEN } = {...config};
+const LINE_API = 'https://api.line.me/v2/bot/message/push';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,9 +41,10 @@ function sendTextMessage(sender, text) {
     url: LINE_API,
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
-      'X-Line-ChannelID': CHANNEL_ID,
-      'X-Line-ChannelSecret': CHANNEL_SERECT,
-      'X-Line-Trusted-User-With-ACL': MID
+      // 'X-Line-ChannelID': CHANNEL_ID,
+      // 'X-Line-ChannelSecret': CHANNEL_SERECT,
+      'Authorization': CHANNEL_TOKEN,
+      // 'X-Line-Trusted-User-With-ACL': MID
     },
     method: 'POST',
     body: JSON.stringify(data) 
