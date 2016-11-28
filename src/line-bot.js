@@ -21,6 +21,8 @@ app.post('/callback', (req, res) => {
   var updatedHmac = hmac.update(JSON.stringify(req.body));
   var digestValue = hmac.digest('base64')
 
+  // checking digest value equals signature in header
+  // if true, this request comes from authentic LINE server
   if (digestValue === req.headers['x-line-signature']){
     res.sendStatus(200);
     const result = req.body.events;
@@ -47,6 +49,8 @@ app.post('/callback', (req, res) => {
 
 app.listen(port, () => console.log(`listening on port ${port}`));
 
+
+// sample send text message function, currently only echos
 function sendTextMessage(sender, text) {
 
   const data = {
