@@ -10,7 +10,11 @@ Line developer account 去 [Line Business Center](https://business.line.me)
 git clone https://github.com/hsin421/line-bot.git
 ```
 
-把 `config.js` 裡面的三個 key 換成自己的
+把 `config.js` 裡面的三個 credentials 換成自己的。如果你打算deploy到Heroku的話就把credentials用
+
+`heroku config:set CHANNEL_SECRET=XXXXXXXXXX`
+
+來設定
 
 再來先裝必要的套件
 
