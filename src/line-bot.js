@@ -6,7 +6,7 @@ var config = require('../config');
 const app = express();
 const port = process.env.PORT || '7123';
 var CHANNEL_ID = config.CHANNEL_ID;
-var CHANNEL_SECRECT =  process.env.CHANNEL_SECRET;
+var CHANNEL_SECRET =  config.CHANNEL_SECRET;
 var CHANNEL_TOKEN = config.CHANNEL_TOKEN;
 const LINE_API = 'https://api.line.me/v2/bot/message/push';
 var crypto = require('crypto');
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/callback', (req, res) => {
   console.log(req.headers);
   console.log(JSON.stringify(req.body));
-  var hmac = crypto.createHmac('sha256', CHANNEL_SECRECT);
+  var hmac = crypto.createHmac('sha256', CHANNEL_SECRET);
   var updatedHmac = hmac.update(JSON.stringify(req.body));
   var digestValue = hmac.digest('base64')
 
@@ -63,10 +63,7 @@ function sendTextMessage(sender, text) {
     url: LINE_API,
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
-      // 'X-Line-ChannelID': CHANNEL_ID,
-      // 'X-Line-ChannelSecret': CHANNEL_SERECT,
-      'Authorization': `Bearer ${CHANNEL_TOKEN}`,
-      // 'X-Line-Trusted-User-With-ACL': MID
+      'Authorization': `Bearer ${CHANNEL_TOKEN}`
     },
     method: 'POST',
     body: JSON.stringify(data) 
