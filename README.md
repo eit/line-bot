@@ -24,6 +24,11 @@ npm install
 npm start
 ```
 
+可以啟動伺服器，但local server 沒什麼用要 deploy 然後建立webhook才行。建議使用 [Heroku](https://heroku.com)
+內建的webhook位置是 `https://YOUR-WEBHOOK-URL/callback` 記得LINE需要webhook使用`https`
+
+
+請參考以下教學，但教學裡使用LINE API舊版，新版文件以上面官方資料為主
 
 ## 教學
 [[教學] Line API](http://huli.logdown.com/posts/726082-line-bot-api-tutorial)
