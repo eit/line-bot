@@ -1,3 +1,4 @@
+require('dotenv').config()
 module.exports = {
 	CHANNEL_ID: process.env.CHANNEL_ID,
 	CHANNEL_SECRET: process.env.CHANNEL_SECRET,
